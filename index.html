@@ -37,7 +37,7 @@
     <!-- About Section -->
     <section id="about">
       <h3 class="text-2xl font-semibold mb-4">About Us</h3>
-      <p class="leading-relaxed">We’re transforming a former cannabis grow facility near Grandora, SK into a thriving homestead. Expect buzzing bees, hydroponic greens, free‑ranging chickens, and experimental gardens popping up in the old stable foundations. Join us as we test ideas, share hard‑earned lessons, and celebrate every small harvest.</p>
+      <p class="leading-relaxed">We’re transforming a former Flying Appaloosa in Grandora, SK into a thriving acreage. Expect buzzing bees, hydroponic greens, free‑ranging chickens, and experimental gardens popping up in the old stable foundations. Join us as we test ideas, share hard‑earned lessons, and celebrate every small harvest.</p>
     </section>
 
     <!-- Projects Section -->
@@ -62,21 +62,26 @@
     <!-- Social Feed Section -->
     <section id="social">
       <h3 class="text-2xl font-semibold mb-4">What’s Happening Now</h3>
-      <div class="grid gap-6 md:grid-cols-3">
-        <!-- Facebook Feed -->
-        <div class="rounded-2xl overflow-hidden shadow">
-          <div class="fb-page" data-href="https://www.facebook.com/profile.php?id=61576260974976" data-tabs="timeline" data-height="500" data-small-header="true" data-adapt-container-width="true"></div>
-        </div>
 
-        <!-- Instagram Feed (replace with your embed/widget) -->
-        <div class="rounded-2xl overflow-hidden shadow">
-          <iframe src="https://snapwidget.com/embed/your‑widget‑id" class="w-full" style="border:none; overflow:hidden;" height="500" allowtransparency="true"></iframe>
-        </div>
+      <!-- Toggle Buttons -->
+      <div class="flex gap-2 mb-6">
+        <button data-feed="facebook" class="feed-btn bg-green-600 text-white px-3 py-1 rounded-full shadow">Facebook</button>
+        <button data-feed="instagram" class="feed-btn bg-gray-200 text-gray-700 px-3 py-1 rounded-full shadow">Instagram</button>
+        <button data-feed="twitter" class="feed-btn bg-gray-200 text-gray-700 px-3 py-1 rounded-full shadow">X</button>
+      </div>
 
-        <!-- Twitter/X Feed -->
-        <div class="rounded-2xl overflow-hidden shadow">
-          <a class="twitter-timeline" data-height="500" href="https://twitter.com/theflyingappsk?ref_src=twsrc%5Etfw">Tweets by theflyingappsk</a>
-        </div>
+      <!-- Feed Containers -->
+      <div id="feed-facebook" class="feed-container rounded-2xl overflow-hidden shadow">
+        <div class="fb-page" data-href="https://www.facebook.com/profile.php?id=61576260974976" data-tabs="timeline" data-height="500" data-small-header="true" data-adapt-container-width="true"></div>
+      </div>
+
+      <div id="feed-instagram" class="feed-container rounded-2xl overflow-hidden shadow hidden">
+        <!-- Replace widget id with your actual SnapWidget or Instagram embed -->
+        <iframe src="https://snapwidget.com/embed/your‑widget‑id" class="w-full" style="border:none; overflow:hidden;" height="500" allowtransparency="true"></iframe>
+      </div>
+
+      <div id="feed-twitter" class="feed-container rounded-2xl overflow-hidden shadow hidden">
+        <a class="twitter-timeline" data-height="500" href="https://twitter.com/theflyingappsk?ref_src=twsrc%5Etfw">Tweets by theflyingappsk</a>
       </div>
     </section>
 
@@ -91,5 +96,24 @@
   <footer class="bg-green-600 text-white py-4 text-center">
     <p class="text-sm">&copy; 2025 The Flying App. All rights reserved.</p>
   </footer>
+
+  <!-- Feed Toggling Script -->
+  <script>
+    document.querySelectorAll('.feed-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.feed;
+        // Toggle active button styles
+        document.querySelectorAll('.feed-btn').forEach(b => {
+          b.classList.remove('bg-green-600','text-white');
+          b.classList.add('bg-gray-200','text-gray-700');
+        });
+        btn.classList.remove('bg-gray-200','text-gray-700');
+        btn.classList.add('bg-green-600','text-white');
+        // Show selected feed, hide others
+        document.querySelectorAll('.feed-container').forEach(c => c.classList.add('hidden'));
+        document.getElementById('feed-' + target).classList.remove('hidden');
+      });
+    });
+  </script>
 </body>
 </html>
