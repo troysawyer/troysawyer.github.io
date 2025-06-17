@@ -6,13 +6,8 @@
   <title>The Flying App | Acreage Adventures</title>
   <!-- Tailwind CSS (via CDN for rapid prototyping) -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Facebook SDK -->
-  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0"></script>
-  <!-- Twitter/X widgets -->
-  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </head>
 <body class="bg-gray-50 text-gray-800">
-  <div id="fb-root"></div>
   <!-- Header -->
   <header class="bg-green-600 text-white py-4">
     <div class="container mx-auto px-4 flex justify-between items-center">
@@ -70,19 +65,10 @@
         <button data-feed="twitter" class="feed-btn bg-gray-200 text-gray-700 px-3 py-1 rounded-full shadow">X</button>
       </div>
 
-      <!-- Feed Containers -->
-      <div id="feed-facebook" class="feed-container rounded-2xl overflow-hidden shadow mx-auto max-w-[500px]">
-        <div class="fb-page" data-href="https://www.facebook.com/profile.php?id=61576260974976" data-tabs="timeline" data-width="500" data-height="500" data-small-header="true" data-adapt-container-width="true"></div>
-      </div>
-
-      <div id="feed-instagram" class="feed-container rounded-2xl overflow-hidden shadow hidden mx-auto max-w-[500px]">
-        <!-- Replace widget id with your actual SnapWidget or Instagram embed -->
-        <iframe src="https://snapwidget.com/embed/your‑widget‑id" class="w-full" style="border:none; overflow:hidden;" height="500" allowtransparency="true"></iframe>
-      </div>
-
-      <div id="feed-twitter" class="feed-container rounded-2xl overflow-hidden shadow hidden mx-auto max-w-[500px]">
-        <a class="twitter-timeline" data-width="500" data-height="500" href="https://twitter.com/theflyingappsk?ref_src=twsrc%5Etfw">Tweets by theflyingappsk</a>
-      </div>
+      <!-- Feed Containers (content injected by JS) -->
+      <div id="feed-facebook" class="feed-container rounded-2xl overflow-hidden shadow mx-auto max-w-[500px]"></div>
+      <div id="feed-instagram" class="feed-container rounded-2xl overflow-hidden shadow hidden mx-auto max-w-[500px]"></div>
+      <div id="feed-twitter" class="feed-container rounded-2xl overflow-hidden shadow hidden mx-auto max-w-[500px]"></div>
     </section>
 
     <!-- Contact Section -->
@@ -97,23 +83,64 @@
     <p class="text-sm">&copy; 2025 The Flying App. All rights reserved.</p>
   </footer>
 
-  <!-- Feed Toggling Script -->
+  <!-- Feed Logic -->
   <script>
-    document.querySelectorAll('.feed-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
+    const feedCache = {}; // simple in‑memory cache per session
+
+    function escapeHtml(str){
+      return str.replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+    }
+
+    async function loadFeed(name){
+      const wrap = document.getElementById('feed-'+name);
+      wrap.innerHTML = '<p class="p-4 text-center text-gray-400">Loading…</p>';
+
+      try{
+        const data = feedCache[name] || await fetch('/api/'+name).then(r=>r.json());
+        feedCache[name] = data;
+
+        if(!Array.isArray(data) || !data.length){
+          wrap.innerHTML = '<p class="p-4 text-center text-gray-400">No recent posts.</p>';return;
+        }
+
+        wrap.innerHTML = data.map(p=>{
+          const text = escapeHtml(p.message||p.caption||p.text||'');
+          const img  = p.image||p.media_url||'';
+          const url  = p.url||p.permalink||'#';
+          return `
+            <article class="p-4 border-b last:border-none bg-white">
+              ${img ? `<img src="${img}" alt="post image" class="w-full rounded-xl mb-3">` : ''}
+              ${text ? `<p class="whitespace-pre-line mb-2">${text}</p>` : ''}
+              <a href="${url}" target="_blank" class="text-sm text-green-600 underline">View on ${name.charAt(0).toUpperCase()+name.slice(1)}</a>
+            </article>`;
+        }).join('');
+      }catch(err){
+        console.error(err);
+        wrap.innerHTML = '<p class="p-4 text-center text-red-500">Couldn’t load feed.</p>';
+      }
+    }
+
+    // Button behaviour & initial load
+    document.querySelectorAll('.feed-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
         const target = btn.dataset.feed;
-        // Toggle active button styles
-        document.querySelectorAll('.feed-btn').forEach(b => {
+        // style buttons
+        document.querySelectorAll('.feed-btn').forEach(b=>{
           b.classList.remove('bg-green-600','text-white');
           b.classList.add('bg-gray-200','text-gray-700');
         });
         btn.classList.remove('bg-gray-200','text-gray-700');
         btn.classList.add('bg-green-600','text-white');
-        // Show selected feed, hide others
-        document.querySelectorAll('.feed-container').forEach(c => c.classList.add('hidden'));
-        document.getElementById('feed-' + target).classList.remove('hidden');
+        // show / hide containers
+        document.querySelectorAll('.feed-container').forEach(c=>c.classList.add('hidden'));
+        document.getElementById('feed-'+target).classList.remove('hidden');
+        // load if not yet
+        if(!feedCache[target]) loadFeed(target);
       });
     });
+
+    // initial
+    loadFeed('facebook');
   </script>
 </body>
 </html>
