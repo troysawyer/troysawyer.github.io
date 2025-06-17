@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Flying App | Acreage Adventures</title>
+  <!-- Tailwind CSS (via CDN for rapid prototyping) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Facebook SDK -->
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0"></script>
+  <!-- Twitter/X widgets -->
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <div id="fb-root"></div>
+  <!-- Header -->
+  <header class="bg-green-600 text-white py-4">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold">The Flying App</h1>
+      <nav class="space-x-4 text-sm md:text-base">
+        <a href="#about" class="hover:underline">About</a>
+        <a href="#projects" class="hover:underline">Projects</a>
+        <a href="#social" class="hover:underline">Social</a>
+        <a href="#contact" class="hover:underline">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="bg-cover bg-center h-64 flex items-center justify-center" style="background-image:url('https://images.unsplash.com/photo-1534447683073-38fb4c2e1b7b?auto=format&fit=crop&w=1200&q=80')">
+    <div class="bg-black bg-opacity-50 p-6 rounded-2xl">
+      <h2 class="text-3xl md:text-4xl text-white font-bold text-center leading-snug">From Bees to Bell Peppers—Follow Our Acreage Adventure</h2>
+    </div>
+  </section>
+
+  <main class="container mx-auto px-4 py-12 space-y-20">
+    <!-- About Section -->
+    <section id="about">
+      <h3 class="text-2xl font-semibold mb-4">About Us</h3>
+      <p class="leading-relaxed">We’re transforming a former cannabis grow facility near Grandora, SK into a thriving homestead. Expect buzzing bees, hydroponic greens, free‑ranging chickens, and experimental gardens popping up in the old stable foundations. Join us as we test ideas, share hard‑earned lessons, and celebrate every small harvest.</p>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+      <h3 class="text-2xl font-semibold mb-4">Latest Projects</h3>
+      <div class="grid gap-6 md:grid-cols-3">
+        <div class="bg-white rounded-2xl shadow p-4">
+          <h4 class="font-semibold mb-2">Indoor Grow Revamp</h4>
+          <p>Bell peppers and tomatoes loving their new rock‑wool cubes and LED spectrum.</p>
+        </div>
+        <div class="bg-white rounded-2xl shadow p-4">
+          <h4 class="font-semibold mb-2">Beehive Expansion</h4>
+          <p>Nucs installed—wildflower honey incoming.</p>
+        </div>
+        <div class="bg-white rounded-2xl shadow p-4">
+          <h4 class="font-semibold mb-2">Garden Foundations</h4>
+          <p>Old stable foundations now host raised beds bursting with colour.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Feed Section -->
+    <section id="social">
+      <h3 class="text-2xl font-semibold mb-4">What’s Happening Now</h3>
+      <div class="grid gap-6 md:grid-cols-3">
+        <!-- Facebook Feed -->
+        <div class="rounded-2xl overflow-hidden shadow">
+          <div class="fb-page" data-href="https://www.facebook.com/profile.php?id=61576260974976" data-tabs="timeline" data-height="500" data-small-header="true" data-adapt-container-width="true"></div>
+        </div>
+
+        <!-- Instagram Feed (replace with your embed/widget) -->
+        <div class="rounded-2xl overflow-hidden shadow">
+          <iframe src="https://snapwidget.com/embed/your‑widget‑id" class="w-full" style="border:none; overflow:hidden;" height="500" allowtransparency="true"></iframe>
+        </div>
+
+        <!-- Twitter/X Feed -->
+        <div class="rounded-2xl overflow-hidden shadow">
+          <a class="twitter-timeline" data-height="500" href="https://twitter.com/theflyingappsk?ref_src=twsrc%5Etfw">Tweets by theflyingappsk</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="space-y-4">
+      <h3 class="text-2xl font-semibold">Get in Touch</h3>
+      <p>Questions, collabs, or just want to say hi? Drop us a line at <a href="mailto:hello@theflyingapp.ca" class="text-green-600 underline">hello@theflyingapp.ca</a>.</p>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-green-600 text-white py-4 text-center">
+    <p class="text-sm">&copy; 2025 The Flying App. All rights reserved.</p>
+  </footer>
+</body>
+</html>
